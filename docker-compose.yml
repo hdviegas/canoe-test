@@ -1,0 +1,46 @@
+version: '3'
+services:
+  canoe-test-app:
+    build:
+      context: .
+      dockerfile: ./deploy/Dockerfile
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - canoe-test-network
+
+  canoe-test-db:
+    image: 'mysql/mysql-server:8.0'
+    ports:
+      - "3306:3306"
+    environment:
+      #MYSQL_DATABASE: canoe_test
+      #MYSQL_ROOT_PASSWORD: password
+      #SERVICE_TAGS: dev
+      #SERVICE_NAME: mysql
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    networks:
+      - canoe-test-network
+    volumes:
+          - './deploy/create-test-db.sh:/docker-entrypoint-initdb.d/10-create-test-db.sh'
+    healthcheck:
+      test:
+          - CMD
+          - mysqladmin
+          - ping
+          - '-p${DB_PASSWORD}'
+      retries: 3
+      timeout: 5s
+
+networks:
+  canoe-test-network:
+    driver: bridge
