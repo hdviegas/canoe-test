@@ -11,3 +11,12 @@ build:
 	make stop
 	docker-compose build
 	make start
+
+init:
+	make build
+    cp .env.example .env
+	composer install
+	php artisan migrate
+
+refresh_db:
+    php artisan migrate:fresh
