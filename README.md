@@ -19,8 +19,13 @@ The database ER diagram can be found [here](docs/ER_diagram.png).
 1. Clone the repository: `git clone git@github.com:hdviegas/canoe-test.git`
 2. Initialize the project: `make init`
 3. Start the server: `make start`
-4. Run tests: `make test`
-5. Refresh DB: `make refresh_db`
+
+## Commands Available
+- Start the server: `make start`
+- Stop the server: `make stop`
+- Build docker images: `make build`
+- Run tests: `make test`
+- Refresh DB: `make refresh_db`
 
 ## Usage
 

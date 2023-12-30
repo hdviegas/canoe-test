@@ -1,4 +1,4 @@
-# Fund API
+# Canoe Test API
 
 ## Get Funds
 
